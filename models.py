@@ -25,21 +25,27 @@ class BoardInputSmallClassifier(torch.nn.Module):
 class BoardInputBigClassifier(torch.nn.Module):
     def __init__(self, input_dim, output_dim):
         super(BoardInputBigClassifier, self).__init__()
-        self.linear1 = torch.nn.Linear(input_dim, 2048)
-        self.linear2 = torch.nn.Linear(2048, 2048)
-        self.linear3 = torch.nn.Linear(2048, 1050)
-        self.linear4 = torch.nn.Linear(1050, output_dim)
+        self.linear1 = torch.nn.Linear(input_dim, 8192)
+        self.bn1 = torch.nn.BatchNorm1d(8192)
+        self.linear2 = torch.nn.Linear(8192, 8192)
+        self.bn2 = torch.nn.BatchNorm1d(8192)
+        self.linear3 = torch.nn.Linear(8192, 4096)
+        self.bn3 = torch.nn.BatchNorm1d(4096)
+        self.linear4 = torch.nn.Linear(4096, 2048)
+        self.bn4 = torch.nn.BatchNorm1d(2048)
+        self.linear5 = torch.nn.Linear(2048, output_dim)
         self.activ = torch.nn.ELU()
-        self.dropout = torch.nn.Dropout(0.2)
-        
+        self.dropout = torch.nn.Dropout(0.3)
+
     def forward(self, x):
-        # x = self.dropout(x)
-        x = self.activ(self.linear1(x))
+        x = self.activ(self.bn1(self.linear1(x)))
         x = self.dropout(x)
-        x = self.activ(self.linear2(x))
+        x = self.activ(self.bn2(self.linear2(x)))
         x = self.dropout(x)
-        x = self.activ(self.linear3(x))
+        x = self.activ(self.bn3(self.linear3(x)))
         x = self.dropout(x)
-        x = self.linear4(x)
+        x = self.activ(self.bn4(self.linear4(x)))
+        x = self.dropout(x)
+        x = self.linear5(x)
         return x
         

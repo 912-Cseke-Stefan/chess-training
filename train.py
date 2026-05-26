@@ -53,34 +53,52 @@ X_test = X_test.to(device)
 y_train = y_train.to(device)
 y_test = y_test.to(device)
 
+from torch.utils.data import TensorDataset, DataLoader
+
 #print(X_train.shape[1])#, y_train.shape[1])
 model = models.BoardInputBigClassifier(X_train.shape[1], 15).to(device)
 
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=15)
 
-num_epochs = 500
+batch_size = 512
+train_dataset = TensorDataset(X_train, y_train)
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+num_epochs = 300
 loss_values = []
 acc_values = []
-#print(X_train[0])
-#print(y_train[0])
+
 for epoch in range(num_epochs):
     model.train()
-    optimizer.zero_grad()
-    y_pred = model(X_train)
-    loss = criterion(y_pred, y_train)
-    loss.backward()
-    optimizer.step()
-    y_pred = torch.argmax(y_pred, dim=1)
+    epoch_loss = 0
+    correct = 0
+    total = 0
 
-    loss_values.append(loss.item())
-    acc_values.append(accuracy_fn(y_train, y_pred))
-    
+    for X_batch, y_batch in train_loader:
+        optimizer.zero_grad()
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        loss.backward()
+        optimizer.step()
+
+        epoch_loss += loss.item() * X_batch.size(0)
+        correct += torch.eq(y_batch, torch.argmax(y_pred, dim=1)).sum().item()
+        total += X_batch.size(0)
+
+    epoch_loss /= total
+    train_acc = (correct / total) * 100
+    loss_values.append(epoch_loss)
+    acc_values.append(train_acc)
+
     model.eval()
-    y_test_pred = model(X_test)
-    y_test_pred = torch.argmax(y_test_pred, dim=1)
-    #print(X_test.shape, y_test.shape, y_test_pred.shape)
-    #accuracy_fn(y_train, y_test_pred)
-    
+    with torch.no_grad():
+        y_test_pred = model(X_test)
+        y_test_pred = torch.argmax(y_test_pred, dim=1)
+        test_acc = accuracy_fn(y_test, y_test_pred)
+
+    scheduler.step(test_acc)
+
     if (epoch + 1) % 10 == 0:
-        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Accuracy: {accuracy_fn(y_train, y_pred):.4f}, Test accuracy: {accuracy_fn(y_test, y_test_pred):.4f}')
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {train_acc:.4f}, Test accuracy: {test_acc:.4f}')
