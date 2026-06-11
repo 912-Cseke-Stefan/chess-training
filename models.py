@@ -49,3 +49,25 @@ class BoardInputBigClassifier(torch.nn.Module):
         x = self.linear5(x)
         return x
         
+class BoardInputRegression(torch.nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(BoardInputBigClassifier, self).__init__()
+        self.linear1 = torch.nn.Linear(input_dim, 2048)
+        self.bn1 = torch.nn.BatchNorm1d(2048)
+        self.linear2 = torch.nn.Linear(2048, 2048)
+        self.bn2 = torch.nn.BatchNorm1d(2048)
+        self.linear3 = torch.nn.Linear(2048, 2048)
+        self.bn3 = torch.nn.BatchNorm1d(2048)
+        self.linear4 = torch.nn.Linear(2048, output_dim)
+        self.activ = torch.nn.ELU()
+        self.dropout = torch.nn.Dropout(0.2)
+
+    def forward(self, x):
+        x = self.activ(self.bn1(self.linear1(x)))
+        x = self.dropout(x)
+        x = self.activ(self.bn2(self.linear2(x)))
+        x = self.dropout(x)
+        x = self.activ(self.bn3(self.linear3(x)))
+        x = self.dropout(x)
+        x = self.linear4(x)
+        return x
