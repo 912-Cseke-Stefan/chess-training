@@ -58,7 +58,7 @@ class BoardInputRegression(torch.nn.Module):
         self.bn2 = torch.nn.BatchNorm1d(2048)
         self.linear3 = torch.nn.Linear(2048, 2048)
         self.bn3 = torch.nn.BatchNorm1d(2048)
-        self.linear4 = torch.nn.Linear(2048, output_dim)
+        self.linear4 = torch.nn.Linear(2048, 1)
         self.activ = torch.nn.ELU()
         self.dropout = torch.nn.Dropout(0.2)
 
