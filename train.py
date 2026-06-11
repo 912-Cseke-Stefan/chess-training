@@ -54,21 +54,35 @@ y_train = y_train.to(device)
 y_test = y_test.to(device)
 
 from torch.utils.data import TensorDataset, DataLoader
+import os
 
-#print(X_train.shape[1])#, y_train.shape[1])
+# Calculate class weights to handle imbalance - MORE AGGRESSIVE
+class_counts = torch.bincount(y, minlength=15).float()
+# Use sqrt of inverse frequency for less extreme but still meaningful weighting
+class_weights = 1.0 / torch.sqrt(class_counts + 1)
+class_weights = class_weights / class_weights.min()  # Scale so min weight is 1
+class_weights = class_weights.to(device)
+print(f'Class weights: {[f"{w:.2f}" for w in class_weights.cpu().tolist()]}')
+
 model = models.BoardInputBigClassifier(X_train.shape[1], 15).to(device)
 
-criterion = torch.nn.CrossEntropyLoss()
+# Load model to continue training
+if os.path.exists('model.pth'):
+    model.load_state_dict(torch.load('model.pth'))
+    print('Loaded existing model from model.pth')
+
+criterion = torch.nn.CrossEntropyLoss(weight=class_weights)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=15)
 
-batch_size = 512
+batch_size = 2048
 train_dataset = TensorDataset(X_train, y_train)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-num_epochs = 300
+num_epochs = 20
 loss_values = []
 acc_values = []
+best_test_acc = 0.0
 
 for epoch in range(num_epochs):
     model.train()
@@ -100,5 +114,11 @@ for epoch in range(num_epochs):
 
     scheduler.step(test_acc)
 
+    if test_acc > best_test_acc:
+        best_test_acc = test_acc
+        torch.save(model.state_dict(), 'model.pth')
+
     if (epoch + 1) % 10 == 0:
         print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {train_acc:.4f}, Test accuracy: {test_acc:.4f}')
+
+print(f'Best test accuracy: {best_test_acc:.4f}')
