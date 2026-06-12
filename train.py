@@ -128,7 +128,8 @@ def train_regression_model():
 
     criterion = torch.nn.MSELoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.7, weight_decay=1e-4, nesterov=True)
-    scaler = scalers.TanhScaler(5000)
+    #scaler = scalers.TanhScaler(5000)
+    scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
 
     scaled_y_train = scaler.scale(y_train_regression).view(-1, 1)
     y_test_regression = y_test_regression.view(-1, 1)
@@ -137,7 +138,7 @@ def train_regression_model():
     train_dataset = TensorDataset(X_train_regression, scaled_y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-    num_epochs = 300
+    num_epochs = 20
     loss_values = []
     test_loss_values = []
 
@@ -172,7 +173,8 @@ def train_regression_model():
 
         test_loss_values.append(test_loss)
 
-        if (epoch + 1) % 10 == 0:
+        if (epoch + 1) % 1 == 0:
             print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {epoch_loss:.4f}, Test loss: {test_loss:.4f}')
-	
+
+
 train_regression_model()
