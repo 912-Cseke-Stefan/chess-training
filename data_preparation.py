@@ -173,9 +173,9 @@ def turn_fen_to_board_inputs_raw_output(position: str):
     
     if 'M' in evaluation:
         if evaluation[1] == '-':
-            output = 10000
-        else:
             output = -10000
+        else:
+            output = 10000
     else:
         output = int(evaluation)
     
