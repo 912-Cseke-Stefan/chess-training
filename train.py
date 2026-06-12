@@ -29,7 +29,7 @@ if torch.cuda.is_available() is False:
 device = "cuda"
 
 
-X, y = read_from_file("selected_top_level_games.csv", data_preparation.turn_fen_to_board_inputs_15_outputs)
+X, y = read_from_file("selected_top_level_games.csv", data_preparation.turn_fen_to_board_inputs_20_outputs)
 
 X = torch.tensor(X, dtype=torch.float)
 y = torch.tensor(y)
@@ -55,7 +55,8 @@ y_test = y_test.to(device)
 from torch.utils.data import TensorDataset, DataLoader
 
 def train_big_classifier():
-    model = models.BoardInputBigClassifier(X_train.shape[1], 15).to(device)
+    #                                         magic constant vv
+    model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
 
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
@@ -177,4 +178,4 @@ def train_regression_model():
             print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {epoch_loss:.4f}, Test loss: {test_loss:.4f}')
 
 
-train_regression_model()
+train_big_classifier()
