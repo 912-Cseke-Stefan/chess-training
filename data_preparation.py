@@ -89,6 +89,31 @@ def turn_fen_to_board_inputs_3_outputs(position: str):
     return inputs, output
     
     
+def turn_fen_to_board_inputs_12_outputs(position: str):
+    [fen_position, evaluation] = position.split(',')
+    
+    if evaluation == "ERROR":
+        return None, None
+
+    inputs = turn_fen_to_board_inputs(fen_position)
+    
+    # [-8, -4, -2, -1, -0.5, 0, 0.5, 1, 2, 4, 8]
+    class_borders = [-8, -4, -2, -1, -0.5, 0, 0.5, 1, 2, 4, 8]
+    if 'M' in evaluation:
+        if evaluation[1] == '-':
+            output = 0
+        else:
+            output = 11
+    else:
+        evaluation = int(evaluation)
+        cls = 0
+        while cls < 11 and evaluation > class_borders[cls]*100:
+            cls += 1
+        output = cls
+    
+    return inputs, output
+    
+    
 def turn_fen_to_board_inputs_15_outputs(position: str):
     [fen_position, evaluation] = position.split(',')
     
@@ -97,6 +122,7 @@ def turn_fen_to_board_inputs_15_outputs(position: str):
 
     inputs = turn_fen_to_board_inputs(fen_position)
     
+    # [-7.5, -6.5, -5.5, -4.5, -3.5, -2.5, -1.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5]
     class_borders = [i-0.5 for i in range(-7, 0, 1)] + [i+0.5 for i in range(1, 8, 1)]
     if 'M' in evaluation:
         if evaluation[1] == '-':
@@ -121,6 +147,7 @@ def turn_fen_to_board_inputs_20_outputs(position: str):
 
     inputs = turn_fen_to_board_inputs(fen_position)
     
+    # [-7.5, -6.5, -5.5, -4.5, -3.5, -2.5, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5]
     class_borders = [i-0.5 for i in range(-7, 0, 1)] + [i/2 for i in range(-2, 3, 1)] + [i+0.5 for i in range(1, 8, 1)]
     if 'M' in evaluation:
         if evaluation[1] == '-':
