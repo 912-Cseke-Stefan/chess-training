@@ -2,7 +2,7 @@ import torch
 
 
 class TanhScaler:
-    def __init__(self, const):
+    def __init__(self, const=5000):
         self.constant = const
 
     def scale(self, y_train):
@@ -13,7 +13,7 @@ class TanhScaler:
 
 
 class AsinhScaler:
-    def __init__(self, const):
+    def __init__(self, const=7000):
         self.constant = const
 
     def scale(self, y_train):

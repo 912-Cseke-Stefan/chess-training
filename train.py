@@ -22,6 +22,7 @@ def read_from_file(filename: str, output_parser):
 
 import torch
 import models
+import scalers
 
 if torch.cuda.is_available() is False:
     raise Exception("No GPU, no deal")
@@ -103,23 +104,46 @@ def train_big_classifier():
 
 
 def train_regression_model():
-    model = models.BoardInputRegression(X_train.shape[1]).to(device)
+    X_regression, y_regression = read_from_file(
+        "selected_top_level_games.csv",
+        data_preparation.turn_fen_to_board_inputs_raw_output
+    )
+
+    X_regression = torch.tensor(X_regression, dtype=torch.float)
+    y_regression = torch.tensor(y_regression, dtype=torch.float)
+
+    X_train_regression, X_test_regression, y_train_regression, y_test_regression = train_test_split(
+        X_regression,
+        y_regression,
+        test_size=0.2,
+        random_state=43
+    )
+
+    X_train_regression = X_train_regression.to(device)
+    X_test_regression = X_test_regression.to(device)
+    y_train_regression = y_train_regression.to(device)
+    y_test_regression = y_test_regression.to(device)
+
+    model = models.BoardInputRegression(X_train_regression.shape[1]).to(device)
 
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.7, weight_decay=1e-4, nesterov=True)
+    scaler = scalers.TanhScaler(5000)
+
+    scaled_y_train = scaler.scale(y_train_regression).view(-1, 1)
+    y_test_regression = y_test_regression.view(-1, 1)
 
     batch_size = 256
-    train_dataset = TensorDataset(X_train, y_train)
+    train_dataset = TensorDataset(X_train_regression, scaled_y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
     num_epochs = 300
     loss_values = []
-    acc_values = []
+    test_loss_values = []
 
     for epoch in range(num_epochs):
         model.train()
         epoch_loss = 0
-        correct = 0
         total = 0
 
         for X_batch, y_batch in train_loader:
@@ -130,22 +154,24 @@ def train_regression_model():
             optimizer.step()
 
             epoch_loss += loss.item() * X_batch.size(0)
-            correct += torch.eq(y_batch, torch.argmax(y_pred, dim=1)).sum().item()
             total += X_batch.size(0)
 
         epoch_loss /= total
-        train_acc = (correct / total) * 100
         loss_values.append(epoch_loss)
-        acc_values.append(train_acc)
 
         model.eval()
         with torch.no_grad():
-            y_test_pred = model(X_test)
-            y_test_pred = torch.argmax(y_test_pred, dim=1)
-            test_acc = accuracy_fn(y_test, y_test_pred)
+            scaled_y_test_pred = model(X_test_regression)
 
-        scheduler.step(test_acc)
+            # clamping is necessary because there is no guarantee the model will respect
+            # the boundaries of the output of tanh
+            scaled_y_test_pred = torch.clamp(scaled_y_test_pred, -0.999999, 0.999999)
+
+            y_test_pred = scaler.reverse(scaled_y_test_pred)
+            test_loss = criterion(y_test_pred, y_test_regression).item()
+
+        test_loss_values.append(test_loss)
 
         if (epoch + 1) % 10 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {train_acc:.4f}, Test accuracy: {test_acc:.4f}')
+            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {epoch_loss:.4f}, Test loss: {test_loss:.4f}')
 	
