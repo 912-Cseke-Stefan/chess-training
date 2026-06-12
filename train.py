@@ -133,7 +133,35 @@ def train_big_classifier():
 
     print(acc_values)
 
-import math
+def evaluate_regression_model(model, X, y_raw, scaler, criterion, batch_size=4096):
+    metric_dataset = TensorDataset(X, y_raw.view(-1, 1))
+    metric_loader = DataLoader(metric_dataset, batch_size=batch_size, shuffle=False)
+
+    scaled_loss_total = 0
+    squared_error_total = 0
+    absolute_error_total = 0
+    total = 0
+
+    model.eval()
+    with torch.no_grad():
+        for X_batch, y_batch in metric_loader:
+            scaled_y_pred = model(X_batch)
+            scaled_y_batch = scaler.scale(y_batch)
+            y_pred = scaler.reverse(scaled_y_pred)
+            error = y_pred - y_batch
+
+            batch_items = y_batch.numel()
+            scaled_loss_total += criterion(scaled_y_pred, scaled_y_batch).item() * batch_items
+            squared_error_total += torch.sum(error ** 2).item()
+            absolute_error_total += torch.sum(torch.abs(error)).item()
+            total += batch_items
+
+    scaled_loss = scaled_loss_total / total
+    rmse = (squared_error_total / total) ** 0.5
+    mae = absolute_error_total / total
+
+    return scaled_loss, rmse, mae
+
 def train_regression_model():
     X_regression, y_regression = read_from_file(
         "selected_top_level_games.csv",
@@ -164,16 +192,18 @@ def train_regression_model():
     #scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
     #print(y_train_regression.mean(), y_train_regression.std())
     
-    scaled_y_train = scaler.scale(y_train_regression).view(-1, 1)
+    y_train_regression = y_train_regression.view(-1, 1)
     y_test_regression = y_test_regression.view(-1, 1)
+    scaled_y_train = scaler.scale(y_train_regression)
 
     batch_size = 256
     train_dataset = TensorDataset(X_train_regression, scaled_y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-    num_epochs = 200
+    num_epochs = 300
+    print_every = 10
     loss_values = []
-    test_loss_values = []
+    test_rmse_values = []
 
     for epoch in range(num_epochs):
         model.train()
@@ -193,21 +223,34 @@ def train_regression_model():
         epoch_loss /= total
         loss_values.append(epoch_loss)
 
-        model.eval()
-        with torch.no_grad():
-            scaled_y_test_pred = model(X_test_regression)
+        test_scaled_loss, test_rmse, test_mae = evaluate_regression_model(
+            model,
+            X_test_regression,
+            y_test_regression,
+            scaler,
+            criterion
+        )
+        test_rmse_values.append(test_rmse)
 
-            # clamping is necessary because there is no guarantee the model will respect
-            # the boundaries of the output of tanh
-            #scaled_y_test_pred = torch.clamp(scaled_y_test_pred, -0.999999, 0.999999)
+        if (epoch + 1) % print_every == 0:
+            train_scaled_loss, train_rmse, train_mae = evaluate_regression_model(
+                model,
+                X_train_regression,
+                y_train_regression,
+                scaler,
+                criterion
+            )
 
-            y_test_pred = scaler.reverse(scaled_y_test_pred)
-            test_loss = criterion(y_test_pred, y_test_regression).item()
-
-        test_loss_values.append(test_loss)
-
-        if (epoch + 1) % 1 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {scaler.reverse(torch.tensor(epoch_loss)):.4f}, Test loss: {test_loss:.4f}')
+            print(
+                f'Epoch [{epoch+1}/{num_epochs}], '
+                f'Train fit loss: {epoch_loss:.4f}, '
+                f'Train eval loss: {train_scaled_loss:.4f}, '
+                f'Train RMSE: {train_rmse:.2f} cp, '
+                f'Train MAE: {train_mae:.2f} cp, '
+                f'Test eval loss: {test_scaled_loss:.4f}, '
+                f'Test RMSE: {test_rmse:.2f} cp, '
+                f'Test MAE: {test_mae:.2f} cp'
+            )
 
 
 #train_big_classifier()
