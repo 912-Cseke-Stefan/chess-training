@@ -133,7 +133,7 @@ def train_big_classifier():
 
     print(acc_values)
 
-
+import math
 def train_regression_model():
     X_regression, y_regression = read_from_file(
         "selected_top_level_games.csv",
@@ -206,8 +206,8 @@ def train_regression_model():
 
         test_loss_values.append(test_loss)
 
-        if (epoch + 1) % 1 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {epoch_loss:.4f}, Test loss: {test_loss:.4f}')
+        if (epoch + 1) % 10 == 0:
+            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {scaler.reverse(math.sqrt(epoch_loss)):.4f}, Test loss: {math.sqrt(test_loss):.4f}')
 
 
 #train_big_classifier()
