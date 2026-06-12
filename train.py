@@ -60,7 +60,7 @@ def save_model_if_better(
     current_performance,
     best_stored_performance,
     epoch,
-    save_path="save/big_classifier_best.pth",
+    save_path="save/big_classifier_20.pth",
     min_epochs=50
 ):
     if epoch + 1 < min_epochs:
@@ -78,7 +78,7 @@ def save_model_if_better(
 
 def train_big_classifier():
     #                                         magic constant vv
-    model = models.BoardInputBigBigClassifier(X_train.shape[1], 20).to(device)
+    model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
 
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
@@ -89,7 +89,6 @@ def train_big_classifier():
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
     num_epochs = 300
-    loss_values = []
     acc_values = []
     best_stored_test_acc = float("-inf")
 
@@ -112,9 +111,7 @@ def train_big_classifier():
 
         epoch_loss /= total
         train_acc = (correct / total) * 100
-        loss_values.append(epoch_loss)
-        acc_values.append(train_acc)
-
+        
         model.eval()
         with torch.no_grad():
             y_test_pred = model(X_test)
@@ -122,6 +119,8 @@ def train_big_classifier():
             test_acc = accuracy_fn(y_test, y_test_pred)
 
         scheduler.step(test_acc)
+        acc_values.append(test_acc)
+
         best_stored_test_acc = save_model_if_better(
             model,
             test_acc,
@@ -131,6 +130,8 @@ def train_big_classifier():
 
         if (epoch + 1) % 10 == 0:
             print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {train_acc:.4f}, Test accuracy: {test_acc:.4f}')
+
+    print(acc_values)
 
 
 def train_regression_model():
