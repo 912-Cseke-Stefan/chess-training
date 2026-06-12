@@ -157,11 +157,11 @@ def train_regression_model():
 
     model = models.BoardInputRegression(X_train_regression.shape[1]).to(device)
 
-    criterion = torch.nn.MSELoss()
+    criterion = torch.nn.SmoothL1Loss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
-    #scaler = scalers.AsinhScaler(1000)
+    scaler = scalers.AsinhScaler(1000)
     #scaler = scalers.TanhScaler(1000)
-    scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
+    #scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
     #print(y_train_regression.mean(), y_train_regression.std())
     
     scaled_y_train = scaler.scale(y_train_regression).view(-1, 1)
@@ -206,8 +206,8 @@ def train_regression_model():
 
         test_loss_values.append(test_loss)
 
-        if (epoch + 1) % 10 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {scaler.reverse(math.sqrt(epoch_loss)):.4f}, Test loss: {math.sqrt(test_loss):.4f}')
+        if (epoch + 1) % 1 == 0:
+            print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {scaler.reverse(torch.tensor(epoch_loss)):.4f}, Test loss: {test_loss:.4f}')
 
 
 #train_big_classifier()

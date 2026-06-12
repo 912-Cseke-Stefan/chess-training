@@ -1,0 +1,813 @@
+Microsoft Windows [Version 10.0.26200.8457]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Pufi>cd source\repos\chess-training
+
+C:\Users\Pufi\source\repos\chess-training>git fetch
+remote: Enumerating objects: 29, done.
+remote: Counting objects: 100% (29/29), done.
+remote: Compressing objects: 100% (9/9), done.
+remote: Total 23 (delta 13), reused 23 (delta 13), pack-reused 0 (from 0)
+Unpacking objects: 100% (23/23), 448.69 KiB | 1.67 MiB/s, done.
+From https://github.com/912-Cseke-Stefan/chess-training
+   001ee37..a74d512  master     -> origin/master
+
+C:\Users\Pufi\source\repos\chess-training>git pull
+Updating 001ee37..a74d512
+Fast-forward
+ .gitignore                   |     1 +
+ data_preparation.py          |   147 +-
+ models.py                    |     4 +-
+ scalers.py                   |    38 +
+ selected_top_level_games.csv | 29360 +++++++++++++++++++++++++++++++++++++++++
+ train.py                     |   222 +-
+ 6 files changed, 29583 insertions(+), 189 deletions(-)
+ create mode 100644 scalers.py
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/300], Train scaled loss: 0.0153, Test loss: 1431065.7500
+Epoch [20/300], Train scaled loss: 0.0153, Test loss: 1395018.0000
+Epoch [30/300], Train scaled loss: 0.0153, Test loss: 1396481.0000
+Epoch [40/300], Train scaled loss: 0.0153, Test loss: 1394999.5000
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 178, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 153, in train_regression_model
+    loss.backward()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\_tensor.py", line 625, in backward
+    torch.autograd.backward(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, gradient, retain_graph, create_graph, inputs=inputs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\autograd\__init__.py", line 354, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\autograd\graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>code .
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [1/300], Train scaled loss: 0.0705, Test loss: 1463203.2500
+Epoch [2/300], Train scaled loss: 0.0257, Test loss: 1436863.7500
+Epoch [3/300], Train scaled loss: 0.0186, Test loss: 1454816.0000
+Epoch [4/300], Train scaled loss: 0.0165, Test loss: 1396742.0000
+Epoch [5/300], Train scaled loss: 0.0156, Test loss: 1398024.5000
+Epoch [6/300], Train scaled loss: 0.0154, Test loss: 1397748.1250
+Epoch [7/300], Train scaled loss: 0.0153, Test loss: 1394319.3750
+Epoch [8/300], Train scaled loss: 0.0153, Test loss: 1396623.6250
+Epoch [9/300], Train scaled loss: 0.0153, Test loss: 1415414.3750
+Epoch [10/300], Train scaled loss: 0.0154, Test loss: 1401706.7500
+Epoch [11/300], Train scaled loss: 0.0153, Test loss: 1394756.6250
+Epoch [12/300], Train scaled loss: 0.0153, Test loss: 1395503.6250
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 179, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 156, in train_regression_model
+    epoch_loss += loss.item() * X_batch.size(0)
+                  ~~~~~~~~~^^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [1/20], Train scaled loss: 0.0695, Test loss: 1482631.8750
+Epoch [2/20], Train scaled loss: 0.0255, Test loss: 1408760.3750
+Epoch [3/20], Train scaled loss: 0.0185, Test loss: 1399254.8750
+Epoch [4/20], Train scaled loss: 0.0163, Test loss: 1397132.6250
+Epoch [5/20], Train scaled loss: 0.0156, Test loss: 1397626.6250
+Epoch [6/20], Train scaled loss: 0.0154, Test loss: 1394710.0000
+Epoch [7/20], Train scaled loss: 0.0153, Test loss: 1400050.1250
+Epoch [8/20], Train scaled loss: 0.0153, Test loss: 1395588.5000
+Epoch [9/20], Train scaled loss: 0.0153, Test loss: 1396256.8750
+Epoch [10/20], Train scaled loss: 0.0153, Test loss: 1396035.6250
+Epoch [11/20], Train scaled loss: 0.0153, Test loss: 1398369.8750
+Epoch [12/20], Train scaled loss: 0.0153, Test loss: 1395046.7500
+Epoch [13/20], Train scaled loss: 0.0153, Test loss: 1395957.6250
+Epoch [14/20], Train scaled loss: 0.0153, Test loss: 1396029.2500
+Epoch [15/20], Train scaled loss: 0.0153, Test loss: 1395101.0000
+Epoch [16/20], Train scaled loss: 0.0153, Test loss: 1396402.0000
+Epoch [17/20], Train scaled loss: 0.0153, Test loss: 1424002.7500
+Epoch [18/20], Train scaled loss: 0.0154, Test loss: 1396643.3750
+Epoch [19/20], Train scaled loss: 0.0153, Test loss: 1397307.2500
+Epoch [20/20], Train scaled loss: 0.0153, Test loss: 1396630.0000
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [1/20], Train scaled loss: 1.0610, Test loss: 1399022.5000
+Epoch [2/20], Train scaled loss: 1.0138, Test loss: 1393605.1250
+Epoch [3/20], Train scaled loss: 1.0069, Test loss: 1387889.5000
+Epoch [4/20], Train scaled loss: 1.0027, Test loss: 1385887.6250
+Epoch [5/20], Train scaled loss: 1.0021, Test loss: 1583764.3750
+Epoch [6/20], Train scaled loss: 1.0091, Test loss: 1381560.5000
+Epoch [7/20], Train scaled loss: 0.9967, Test loss: 1378599.7500
+Epoch [8/20], Train scaled loss: 0.9946, Test loss: 1379903.6250
+Epoch [9/20], Train scaled loss: 0.9924, Test loss: 1376598.8750
+Epoch [10/20], Train scaled loss: 0.9905, Test loss: 1375457.6250
+Epoch [11/20], Train scaled loss: 0.9877, Test loss: 1373533.5000
+Epoch [12/20], Train scaled loss: 0.9867, Test loss: 1362389.6250
+Epoch [13/20], Train scaled loss: 0.9841, Test loss: 1354414.1250
+Epoch [14/20], Train scaled loss: 0.9790, Test loss: 1357695.3750
+Epoch [15/20], Train scaled loss: 0.9794, Test loss: 1353793.3750
+Epoch [16/20], Train scaled loss: 0.9739, Test loss: 1365984.2500
+Epoch [17/20], Train scaled loss: 0.9706, Test loss: 1358796.6250
+Epoch [18/20], Train scaled loss: 0.9662, Test loss: 1706511.8750
+Epoch [19/20], Train scaled loss: 0.9724, Test loss: 1341923.7500
+Epoch [20/20], Train scaled loss: 0.9583, Test loss: 1360572.0000
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/300], Loss: 1.4834, Accuracy: 46.1976, Test accuracy: 45.0830
+Epoch [20/300], Loss: 1.2350, Accuracy: 54.0705, Test accuracy: 54.0092
+Epoch [30/300], Loss: 1.0809, Accuracy: 59.6337, Test accuracy: 56.9142
+Epoch [40/300], Loss: 1.0275, Accuracy: 61.6531, Test accuracy: 61.1493
+Epoch [50/300], Loss: 0.9731, Accuracy: 63.6546, Test accuracy: 62.9101
+Epoch [60/300], Loss: 0.9248, Accuracy: 65.5262, Test accuracy: 63.1930
+Epoch [70/300], Loss: 0.8948, Accuracy: 66.5037, Test accuracy: 63.2141
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 181, in <module>
+    train_big_classifier()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 86, in train_big_classifier
+    epoch_loss += loss.item() * X_batch.size(0)
+                  ~~~~~~~~~^^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/300], Loss: 1.5155, Accuracy: 45.3711, Test accuracy: 43.2420
+Epoch [20/300], Loss: 1.2315, Accuracy: 54.0557, Test accuracy: 52.8480
+Epoch [30/300], Loss: 1.1181, Accuracy: 58.3004, Test accuracy: 56.9860
+Epoch [40/300], Loss: 1.0423, Accuracy: 61.0187, Test accuracy: 61.3562
+Saved model at epoch 50 with test accuracy 62.8510
+Epoch [50/300], Loss: 0.9723, Accuracy: 63.8309, Test accuracy: 62.8510
+Saved model at epoch 51 with test accuracy 62.9650
+Saved model at epoch 53 with test accuracy 63.1677
+Saved model at epoch 57 with test accuracy 63.1761
+Saved model at epoch 59 with test accuracy 63.4041
+Epoch [60/300], Loss: 0.9357, Accuracy: 65.1547, Test accuracy: 62.8848
+Saved model at epoch 64 with test accuracy 64.0671
+Saved model at epoch 70 with test accuracy 64.2022
+Epoch [70/300], Loss: 0.8991, Accuracy: 66.4130, Test accuracy: 64.2022
+Saved model at epoch 73 with test accuracy 64.5526
+Saved model at epoch 76 with test accuracy 64.9875
+Saved model at epoch 79 with test accuracy 65.5449
+Epoch [80/300], Loss: 0.8696, Accuracy: 67.5457, Test accuracy: 63.5772
+Epoch [90/300], Loss: 0.8665, Accuracy: 67.6818, Test accuracy: 65.0678
+Saved model at epoch 96 with test accuracy 66.6681
+Saved model at epoch 97 with test accuracy 66.7230
+Saved model at epoch 98 with test accuracy 67.2508
+Epoch [100/300], Loss: 0.7626, Accuracy: 71.3649, Test accuracy: 67.0608
+Saved model at epoch 108 with test accuracy 67.3479
+Saved model at epoch 110 with test accuracy 67.7321
+Epoch [110/300], Loss: 0.7585, Accuracy: 71.5032, Test accuracy: 67.7321
+Saved model at epoch 119 with test accuracy 67.9475
+Epoch [120/300], Loss: 0.7366, Accuracy: 72.2907, Test accuracy: 66.9552
+Saved model at epoch 127 with test accuracy 67.9770
+Saved model at epoch 128 with test accuracy 68.0108
+Epoch [130/300], Loss: 0.7122, Accuracy: 73.1606, Test accuracy: 66.9848
+Epoch [140/300], Loss: 0.7177, Accuracy: 72.9230, Test accuracy: 67.2719
+Saved model at epoch 145 with test accuracy 68.5851
+Saved model at epoch 146 with test accuracy 68.8384
+Saved model at epoch 149 with test accuracy 68.9355
+Epoch [150/300], Loss: 0.6583, Accuracy: 75.1335, Test accuracy: 68.6568
+Saved model at epoch 153 with test accuracy 69.0411
+Saved model at epoch 157 with test accuracy 69.2649
+Epoch [160/300], Loss: 0.6633, Accuracy: 75.0913, Test accuracy: 69.0960
+Epoch [170/300], Loss: 0.6424, Accuracy: 75.7627, Test accuracy: 68.9693
+Saved model at epoch 174 with test accuracy 69.3704
+Saved model at epoch 178 with test accuracy 69.4211
+Epoch [180/300], Loss: 0.6115, Accuracy: 76.8278, Test accuracy: 69.2100
+Saved model at epoch 181 with test accuracy 69.5942
+Saved model at epoch 183 with test accuracy 69.6153
+Saved model at epoch 189 with test accuracy 69.7505
+Epoch [190/300], Loss: 0.6004, Accuracy: 77.1456, Test accuracy: 69.5140
+Epoch [200/300], Loss: 0.6028, Accuracy: 77.2258, Test accuracy: 69.6576
+Saved model at epoch 204 with test accuracy 69.7927
+Epoch [210/300], Loss: 0.6022, Accuracy: 77.2459, Test accuracy: 69.6153
+Epoch [220/300], Loss: 0.6023, Accuracy: 77.1160, Test accuracy: 69.6069
+Saved model at epoch 227 with test accuracy 69.9531
+Saved model at epoch 228 with test accuracy 69.9869
+Epoch [230/300], Loss: 0.5791, Accuracy: 77.9098, Test accuracy: 69.9109
+Saved model at epoch 239 with test accuracy 70.0207
+Epoch [240/300], Loss: 0.5775, Accuracy: 78.1410, Test accuracy: 69.7336
+Epoch [250/300], Loss: 0.5743, Accuracy: 78.2276, Test accuracy: 69.6618
+Saved model at epoch 257 with test accuracy 70.0714
+Saved model at epoch 258 with test accuracy 70.0756
+Epoch [260/300], Loss: 0.5640, Accuracy: 78.5527, Test accuracy: 69.8940
+Saved model at epoch 265 with test accuracy 70.1643
+Epoch [270/300], Loss: 0.5606, Accuracy: 78.7575, Test accuracy: 70.0165
+Epoch [280/300], Loss: 0.5618, Accuracy: 78.5770, Test accuracy: 70.1009
+Epoch [290/300], Loss: 0.5555, Accuracy: 78.8135, Test accuracy: 69.9025
+Saved model at epoch 295 with test accuracy 70.1854
+Epoch [300/300], Loss: 0.5576, Accuracy: 78.7343, Test accuracy: 70.0122
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/300], Loss: 1.2631, Accuracy: 53.7855, Test accuracy: 52.5736
+Epoch [20/300], Loss: 1.0507, Accuracy: 61.0102, Test accuracy: 58.1387
+Epoch [30/300], Loss: 0.9923, Accuracy: 63.1511, Test accuracy: 60.9762
+Epoch [40/300], Loss: 0.9316, Accuracy: 65.3626, Test accuracy: 63.6068
+  Saved model at epoch 50 with test accuracy 63.6744
+Epoch [50/300], Loss: 0.8591, Accuracy: 67.6227, Test accuracy: 63.6744
+  Saved model at epoch 52 with test accuracy 64.7258
+  Saved model at epoch 57 with test accuracy 64.7933
+Epoch [60/300], Loss: 0.8688, Accuracy: 67.5182, Test accuracy: 63.7546
+  Saved model at epoch 68 with test accuracy 65.4562
+Epoch [70/300], Loss: 0.8264, Accuracy: 69.0394, Test accuracy: 64.5653
+  Saved model at epoch 77 with test accuracy 65.6125
+  Saved model at epoch 78 with test accuracy 65.7391
+Epoch [80/300], Loss: 0.8076, Accuracy: 69.7963, Test accuracy: 64.9200
+  Saved model at epoch 85 with test accuracy 65.8574
+Epoch [90/300], Loss: 0.8000, Accuracy: 70.1320, Test accuracy: 65.0213
+  Saved model at epoch 92 with test accuracy 66.2163
+  Saved model at epoch 99 with test accuracy 66.4781
+Epoch [100/300], Loss: 0.8023, Accuracy: 70.1520, Test accuracy: 65.9629
+  Saved model at epoch 108 with test accuracy 66.5076
+Epoch [110/300], Loss: 0.7800, Accuracy: 71.0314, Test accuracy: 65.9883
+  Saved model at epoch 116 with test accuracy 66.5330
+Epoch [120/300], Loss: 0.7722, Accuracy: 71.2203, Test accuracy: 66.1952
+  Saved model at epoch 123 with test accuracy 66.7441
+Epoch [130/300], Loss: 0.7467, Accuracy: 71.9540, Test accuracy: 65.8743
+  Saved model at epoch 140 with test accuracy 68.0235
+Epoch [140/300], Loss: 0.7007, Accuracy: 73.6367, Test accuracy: 68.0235
+  Saved model at epoch 142 with test accuracy 68.4879
+  Saved model at epoch 144 with test accuracy 68.7244
+Epoch [150/300], Loss: 0.6534, Accuracy: 75.3331, Test accuracy: 68.3613
+Epoch [160/300], Loss: 0.6609, Accuracy: 75.1916, Test accuracy: 68.5597
+  Saved model at epoch 161 with test accuracy 68.9229
+  Saved model at epoch 162 with test accuracy 69.2860
+  Saved model at epoch 165 with test accuracy 69.4464
+  Saved model at epoch 169 with test accuracy 69.4802
+Epoch [170/300], Loss: 0.5966, Accuracy: 77.3768, Test accuracy: 69.1509
+  Saved model at epoch 174 with test accuracy 69.5182
+  Saved model at epoch 178 with test accuracy 69.6407
+  Saved model at epoch 180 with test accuracy 69.7293
+Epoch [180/300], Loss: 0.5781, Accuracy: 77.8075, Test accuracy: 69.7293
+  Saved model at epoch 181 with test accuracy 69.7885
+Epoch [190/300], Loss: 0.5753, Accuracy: 78.0302, Test accuracy: 69.4084
+  Saved model at epoch 198 with test accuracy 70.0038
+  Saved model at epoch 200 with test accuracy 70.0967
+Epoch [200/300], Loss: 0.5457, Accuracy: 79.0183, Test accuracy: 70.0967
+Epoch [210/300], Loss: 0.5320, Accuracy: 79.3972, Test accuracy: 69.9236
+  Saved model at epoch 217 with test accuracy 70.2740
+  Saved model at epoch 220 with test accuracy 70.3965
+Epoch [220/300], Loss: 0.5169, Accuracy: 80.1330, Test accuracy: 70.3965
+  Saved model at epoch 227 with test accuracy 70.4218
+Epoch [230/300], Loss: 0.5135, Accuracy: 80.4539, Test accuracy: 69.9911
+Epoch [240/300], Loss: 0.5096, Accuracy: 80.4866, Test accuracy: 70.3289
+Epoch [250/300], Loss: 0.5018, Accuracy: 80.6313, Test accuracy: 70.3669
+  Saved model at epoch 252 with test accuracy 70.4345
+Epoch [260/300], Loss: 0.5015, Accuracy: 80.7495, Test accuracy: 70.3500
+  Saved model at epoch 261 with test accuracy 70.4429
+  Saved model at epoch 262 with test accuracy 70.4725
+  Saved model at epoch 265 with test accuracy 70.6076
+Epoch [270/300], Loss: 0.4949, Accuracy: 80.9385, Test accuracy: 70.5020
+Epoch [280/300], Loss: 0.5006, Accuracy: 80.7843, Test accuracy: 70.5105
+Epoch [290/300], Loss: 0.4936, Accuracy: 80.9395, Test accuracy: 70.4936
+Epoch [300/300], Loss: 0.4853, Accuracy: 81.3449, Test accuracy: 70.4556
+[37.03500401131613, 41.50234345310982, 42.71418316936199, 45.32364987543808, 47.56576447240637, 48.91272220580163, 50.111894607946624, 52.02465903812862, 52.10488536080733, 52.57357598277246, 54.836802769919345, 55.009922729383945, 55.335050458134525, 54.27944094920407, 57.20981294599502, 57.05358273867331, 57.606722121352874, 55.79529620402821, 57.239370012245075, 58.13874931385382, 57.501161170459824, 59.45614998099903, 60.07684837225013, 58.784782333319264, 60.25841320778618, 59.916395726892716, 59.61660262635646, 60.95933792171599, 58.81856183760503, 60.97622767385889, 61.63492800743149, 61.639150445467216, 61.31824515475235, 62.39918929189714, 62.86787991386227, 62.43296879618292, 62.43296879618292, 62.766541401004936, 61.955833298146345, 63.606806570113584, 63.281678841363, 62.30629565511126, 62.618756069754674, 63.36612760207744, 63.23100958493434, 64.36262297850779, 63.4547988008276, 64.31617616011485, 63.69125533082802, 63.67436557868513, 63.10011400582697, 64.72575264957987, 62.171177637968164, 64.56952244225816, 63.47591099100621, 63.062112063505474, 64.79331165815142, 64.6159692606511, 64.70464045940126, 63.754591901363845, 64.76797702993709, 63.754591901363845, 64.76375459190137, 64.78064434404425, 64.50196343368661, 64.70464045940126, 64.65819364100832, 65.45623442975975, 65.2155554617236, 64.56530000422244, 65.30844909850948, 65.28733690833087, 63.281678841363, 65.36334079297387, 65.42245492547397, 65.25777984208082, 65.61246463708144, 65.7391377781531, 65.59979732297428, 64.91998479922307, 65.20711058565215, 65.64624414136723, 65.42667736350968, 65.47734661993834, 65.85736604315332, 65.69269095976017, 65.48156905797407, 65.16488620529493, 65.40134273529536, 65.0213233120804, 65.59135244690285, 66.21627327618967, 65.88270067136764, 65.16488620529493, 64.2106152092218, 65.08465988261622, 66.02204112654647, 66.15293670565384, 66.47806443440443, 65.96292699404637, 65.0804374445805, 65.95870455601064, 66.42317273994004, 64.81864628636575, 65.46045686779547, 66.27538740868978, 65.32111641261665, 66.50762150065448, 65.53646075243846, 65.9882616222607, 65.40134273529536, 66.42317273994004, 66.08115525904658, 65.45623442975975, 65.80669678672464, 66.53295612886882, 65.756027530296, 65.45623442975975, 66.39783811172572, 66.19516108601107, 65.97559430815353, 65.37600810708103, 66.74407803065489, 66.45272980619009, 65.81091922476038, 66.04315331672508, 65.9713718701178, 66.59629269940464, 66.1064898872609, 65.8742557952962, 66.31761178904699, 66.25005278047544, 65.88692310940337, 66.14026939154668, 66.72296584047629, 66.30072203690412, 65.2915593463666, 65.88692310940337, 64.50618587172234, 68.02347675547861, 67.60123295190643, 68.48794493940802, 68.47105518726512, 68.72440146940843, 68.2134864670861, 68.50905712958662, 68.15014989655027, 66.68496389815479, 68.53016931976524, 68.36127179833636, 68.53861419583667, 68.12059283030023, 68.70328927922984, 68.55972638601529, 68.51327956762235, 68.55972638601529, 68.563948824051, 68.12903770637165, 68.48794493940802, 68.55972638601529, 68.92285605708737, 69.28598572815943, 69.25220622387367, 69.23109403369506, 69.44643837351687, 69.2986530422666, 69.38310180298105, 68.91863361905163, 69.48021787780264, 69.15086771101635, 69.38310180298105, 69.25220622387367, 68.82151754423003, 69.51821982012414, 69.2986530422666, 69.22687159565933, 69.28598572815943, 69.64067052316008, 69.53510957226703, 69.72934172191023, 69.78845585441033, 69.53933201030274, 69.5477768863742, 69.39999155512393, 69.15509014905207, 69.63644808512434, 69.52666469619558, 69.45910568762403, 69.51399738208842, 69.40843643119537, 69.5688890765528, 69.7251192838745, 69.4126588692311, 69.54355444833847, 69.64067052316008, 69.61955833298147, 69.48866275387408, 70.00380019423214, 69.98691044208927, 70.09669383101803, 69.9531309378035, 70.05024701262509, 69.72934172191023, 69.87712705316049, 70.08402651691087, 69.88134949119622, 69.87712705316049, 70.00380019423214, 70.07135920280369, 69.92357387155343, 70.07135920280369, 69.9953553181607, 69.9573533758392, 70.02068994637504, 69.94046362369633, 70.05024701262509, 70.27403622851834, 70.2275894101254, 70.10513870708948, 70.39648693155428, 70.33737279905418, 70.15580796351813, 70.2655913524469, 70.23181184816113, 70.19380990583963, 70.37537474137568, 70.42182155976862, 69.94890849976777, 70.29092598066123, 69.99113288012498, 70.19380990583963, 70.29937085673268, 70.32048304691129, 70.20647721994679, 70.33315036101845, 70.24025672423258, 70.29514841869695, 70.33737279905418, 70.18536502976819, 70.32892792298273, 70.27403622851834, 70.33315036101845, 69.99113288012498, 70.25714647637545, 70.26136891441118, 70.25714647637545, 70.31203817083984, 70.37115230333994, 70.27825866655407, 70.36692986530423, 70.27825866655407, 70.43448887387578, 70.42604399780433, 70.31626060887557, 70.43026643584005, 70.38804205548284, 70.35004011316134, 70.28248110458979, 70.28248110458979, 70.35004011316134, 70.44293374994723, 70.47249081619728, 70.41759912173289, 70.43871131191149, 70.60760883334038, 70.47671325423299, 70.57382932905459, 70.33315036101845, 70.45560106405439, 70.50204788244733, 70.40915424566144, 70.32048304691129, 70.54849470084027, 70.54427226280454, 70.37115230333994, 70.38381961744712, 70.51049275851878, 70.37115230333994, 70.42604399780433, 70.51049275851878, 70.29937085673268, 70.36692986530423, 70.40493180762573, 70.51893763459022, 70.4978254444116, 70.43448887387578, 70.35426255119707, 70.4978254444116, 70.35848498923278, 70.49360300637588, 70.4598235020901, 70.54004982476883, 70.53160494869738, 70.4598235020901, 70.3627074272685, 70.54849470084027, 70.38804205548284, 70.35004011316134, 70.50627032048304, 70.45560106405439]
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [1/20], Train scaled loss: 1.0595, Test loss: 1395740.0000
+Epoch [2/20], Train scaled loss: 1.0118, Test loss: 1393676.8750
+Epoch [3/20], Train scaled loss: 1.0055, Test loss: 1405477.6250
+Epoch [4/20], Train scaled loss: 1.0015, Test loss: 1384582.5000
+Epoch [5/20], Train scaled loss: 0.9994, Test loss: 1380393.3750
+Epoch [6/20], Train scaled loss: 0.9973, Test loss: 1379794.7500
+Epoch [7/20], Train scaled loss: 0.9966, Test loss: 1588849.8750
+Epoch [8/20], Train scaled loss: 1.0033, Test loss: 1377586.3750
+Epoch [9/20], Train scaled loss: 0.9914, Test loss: 1370087.2500
+Epoch [10/20], Train scaled loss: 0.9876, Test loss: 1490341.6250
+Epoch [11/20], Train scaled loss: 0.9986, Test loss: 1381893.7500
+Epoch [12/20], Train scaled loss: 0.9844, Test loss: 1357232.1250
+Epoch [13/20], Train scaled loss: 0.9827, Test loss: 1566833.5000
+Epoch [14/20], Train scaled loss: 0.9895, Test loss: 1354715.5000
+Epoch [15/20], Train scaled loss: 0.9779, Test loss: 1349299.0000
+Epoch [16/20], Train scaled loss: 0.9739, Test loss: 1351433.5000
+Epoch [17/20], Train scaled loss: 0.9687, Test loss: 1345203.2500
+Epoch [18/20], Train scaled loss: 0.9666, Test loss: 1332523.0000
+Epoch [19/20], Train scaled loss: 0.9616, Test loss: 1330504.1250
+Epoch [20/20], Train scaled loss: 0.9561, Test loss: 1319366.8750
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 0.1119, Test loss: 1400000.5000
+Epoch [20/200], Train scaled loss: 0.1073, Test loss: 1400773.6250
+Epoch [30/200], Train scaled loss: 0.1034, Test loss: 1397756.7500
+Epoch [40/200], Train scaled loss: 0.1011, Test loss: 1395118.6250
+Epoch [50/200], Train scaled loss: 0.0977, Test loss: 1393690.5000
+Epoch [60/200], Train scaled loss: 0.0952, Test loss: 1393126.5000
+Epoch [70/200], Train scaled loss: 0.0915, Test loss: 1390937.8750
+Epoch [80/200], Train scaled loss: 0.0894, Test loss: 1390060.0000
+Epoch [90/200], Train scaled loss: 0.0867, Test loss: 1389926.5000
+Epoch [100/200], Train scaled loss: 0.0840, Test loss: 1387551.1250
+Epoch [110/200], Train scaled loss: 0.0823, Test loss: 1385882.1250
+Epoch [120/200], Train scaled loss: 0.0798, Test loss: 1385644.5000
+Epoch [130/200], Train scaled loss: 0.0774, Test loss: 1384272.3750
+Epoch [140/200], Train scaled loss: 0.0758, Test loss: 1382289.5000
+Epoch [150/200], Train scaled loss: 0.0743, Test loss: 1381381.5000
+Epoch [160/200], Train scaled loss: 0.0729, Test loss: 1380215.3750
+Epoch [170/200], Train scaled loss: 0.0710, Test loss: 1379560.3750
+Epoch [180/200], Train scaled loss: 0.0696, Test loss: 1378414.2500
+Epoch [190/200], Train scaled loss: 0.0682, Test loss: 1380763.5000
+Epoch [200/200], Train scaled loss: 0.0670, Test loss: 1376387.6250
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+tensor(18.6780, device='cuda:0') tensor(1174.3236, device='cuda:0')
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 213, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 189, in train_regression_model
+    epoch_loss += loss.item() * X_batch.size(0)
+                  ~~~~~~~~~^^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+tensor(18.6780, device='cuda:0') tensor(1174.3236, device='cuda:0')
+Epoch [10/200], Train scaled loss: 0.2821, Test loss: 1400327.5000
+Epoch [20/200], Train scaled loss: 0.2518, Test loss: 1398833.1250
+Epoch [30/200], Train scaled loss: 0.2274, Test loss: 1397065.8750
+Epoch [40/200], Train scaled loss: 0.2092, Test loss: 1395530.8750
+Epoch [50/200], Train scaled loss: 0.1947, Test loss: 1394160.5000
+Epoch [60/200], Train scaled loss: 0.1840, Test loss: 1392979.3750
+Epoch [70/200], Train scaled loss: 0.1731, Test loss: 1393153.3750
+Epoch [80/200], Train scaled loss: 0.1652, Test loss: 1391013.8750
+Epoch [90/200], Train scaled loss: 0.1581, Test loss: 1391326.2500
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 213, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 204, in train_regression_model
+    test_loss = criterion(y_test_pred, y_test_regression).item()
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+tensor(18.6780, device='cuda:0') tensor(1174.3236, device='cuda:0')
+Epoch [10/200], Train scaled loss: 0.1720, Test loss: 1394604.3750
+Epoch [20/200], Train scaled loss: 0.1702, Test loss: 1393126.1250
+Epoch [30/200], Train scaled loss: 0.1687, Test loss: 1395141.5000
+Epoch [40/200], Train scaled loss: 0.1674, Test loss: 1388313.6250
+Epoch [50/200], Train scaled loss: 0.1664, Test loss: 1382961.8750
+Epoch [60/200], Train scaled loss: 0.1643, Test loss: 1379183.3750
+Epoch [70/200], Train scaled loss: 0.1637, Test loss: 1373536.0000
+Epoch [80/200], Train scaled loss: 0.1611, Test loss: 1371235.7500
+Epoch [90/200], Train scaled loss: 0.1605, Test loss: 1379137.2500
+Epoch [100/200], Train scaled loss: 0.1570, Test loss: 1358413.2500
+Epoch [110/200], Train scaled loss: 0.1546, Test loss: 1350739.6250
+Epoch [120/200], Train scaled loss: 0.1526, Test loss: 1342302.2500
+Epoch [130/200], Train scaled loss: 0.1504, Test loss: 1331654.8750
+Epoch [140/200], Train scaled loss: 0.1481, Test loss: 1327662.7500
+Epoch [150/200], Train scaled loss: 0.1461, Test loss: 1314748.8750
+Epoch [160/200], Train scaled loss: 0.1430, Test loss: 1303490.5000
+Epoch [170/200], Train scaled loss: 0.1410, Test loss: 1299775.3750
+Epoch [180/200], Train scaled loss: 0.1387, Test loss: 1288719.2500
+Epoch [190/200], Train scaled loss: 0.1366, Test loss: 1279791.5000
+Epoch [200/200], Train scaled loss: 0.1337, Test loss: 1280590.0000
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 217, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 208, in train_regression_model
+    scheduler.step(test_acc)
+                   ^^^^^^^^
+NameError: name 'test_acc' is not defined
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 0.1329, Test loss: 1205043.7500
+Epoch [20/200], Train scaled loss: 0.0767, Test loss: 1082725.2500
+Epoch [30/200], Train scaled loss: 0.0470, Test loss: 978759.4375
+Epoch [40/200], Train scaled loss: 0.0336, Test loss: 1627599.0000
+Epoch [50/200], Train scaled loss: 0.0288, Test loss: 1175143.3750
+Epoch [60/200], Train scaled loss: 0.0199, Test loss: 1144858.5000
+Epoch [70/200], Train scaled loss: 0.0186, Test loss: 1276548.5000
+Epoch [80/200], Train scaled loss: 0.0168, Test loss: 990306.0000
+Epoch [90/200], Train scaled loss: 0.0138, Test loss: 964547.8750
+Epoch [100/200], Train scaled loss: 0.0127, Test loss: 926820.4375
+Epoch [110/200], Train scaled loss: 0.0133, Test loss: 915681.2500
+Epoch [120/200], Train scaled loss: 0.0099, Test loss: 1455612.1250
+Epoch [130/200], Train scaled loss: 0.0100, Test loss: 888027.4375
+Epoch [140/200], Train scaled loss: 0.0098, Test loss: 944685.5625
+Epoch [150/200], Train scaled loss: 0.0078, Test loss: 967964.3750
+Epoch [160/200], Train scaled loss: 0.0073, Test loss: 1111448.3750
+Epoch [170/200], Train scaled loss: 0.0066, Test loss: 883036.6250
+Epoch [180/200], Train scaled loss: 0.0085, Test loss: 849606.2500
+Epoch [190/200], Train scaled loss: 0.0063, Test loss: 867021.4375
+Epoch [200/200], Train scaled loss: 0.0061, Test loss: 830932.3125
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 0.0348, Test loss: 1362972.5000
+Epoch [20/200], Train scaled loss: 0.0274, Test loss: 1336889.0000
+Epoch [30/200], Train scaled loss: 0.0156, Test loss: 1245391.7500
+Epoch [40/200], Train scaled loss: 0.0119, Test loss: 1285983.0000
+Epoch [50/200], Train scaled loss: 0.0103, Test loss: 1196173.1250
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 185, in train_regression_model
+    y_pred = model(X_batch)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\Pufi\source\repos\chess-training\models.py", line 91, in forward
+    x = self.activ(self.bn2(self.linear2(x)))
+                   ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\batchnorm.py", line 193, in forward
+    return F.batch_norm(
+           ~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<11 lines>...
+        self.eps,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\functional.py", line 2813, in batch_norm
+    return torch.batch_norm(
+           ~~~~~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<7 lines>...
+        torch.backends.cudnn.enabled,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 0.6222, Test loss: 1039511.4375
+Epoch [20/200], Train scaled loss: 0.3151, Test loss: 880883.6875
+Epoch [30/200], Train scaled loss: 0.1909, Test loss: 867147.1250
+Epoch [40/200], Train scaled loss: 0.1461, Test loss: 825262.6875
+Epoch [50/200], Train scaled loss: 0.1092, Test loss: 898309.6250
+Epoch [60/200], Train scaled loss: 0.0881, Test loss: 829442.1250
+Epoch [70/200], Train scaled loss: 0.0749, Test loss: 989578.7500
+Epoch [80/200], Train scaled loss: 0.0597, Test loss: 801509.0000
+Epoch [90/200], Train scaled loss: 0.0562, Test loss: 775516.1875
+Epoch [100/200], Train scaled loss: 0.0617, Test loss: 797187.1250
+Epoch [110/200], Train scaled loss: 0.0957, Test loss: 832365.5625
+Epoch [120/200], Train scaled loss: 0.0386, Test loss: 774905.2500
+Epoch [130/200], Train scaled loss: 0.0315, Test loss: 809051.7500
+Epoch [140/200], Train scaled loss: 0.0342, Test loss: 792947.7500
+Epoch [150/200], Train scaled loss: 0.0346, Test loss: 793402.1875
+Epoch [160/200], Train scaled loss: 0.0310, Test loss: 921274.1250
+Epoch [170/200], Train scaled loss: 0.0270, Test loss: 880797.8125
+Epoch [180/200], Train scaled loss: 0.0266, Test loss: 866426.8750
+Epoch [190/200], Train scaled loss: 0.0253, Test loss: 799800.0625
+Epoch [200/200], Train scaled loss: 0.0304, Test loss: 851004.6250
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 771.9056, Test loss: 1007821.2500
+Epoch [20/200], Train scaled loss: 390.9442, Test loss: 896411.5000
+Epoch [30/200], Train scaled loss: 256.1671, Test loss: 861567.6250
+Epoch [40/200], Train scaled loss: 187.8991, Test loss: 899543.1875
+Epoch [50/200], Train scaled loss: 145.4569, Test loss: 817391.2500
+Epoch [60/200], Train scaled loss: 126.9415, Test loss: 802811.3125
+Epoch [70/200], Train scaled loss: 117.7020, Test loss: 904145.5625
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 205, in train_regression_model
+    test_loss = criterion(y_test_pred, y_test_regression).item()
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 933.5803, Test loss: 1070435.6250
+Epoch [20/200], Train scaled loss: 666.3542, Test loss: 843649.1875
+Epoch [30/200], Train scaled loss: 529.8654, Test loss: 867449.0000
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 185, in train_regression_model
+    y_pred = model(X_batch)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\Pufi\source\repos\chess-training\models.py", line 89, in forward
+    x = self.activ(self.bn1(self.linear1(x)))
+                   ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\batchnorm.py", line 193, in forward
+    return F.batch_norm(
+           ~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<11 lines>...
+        self.eps,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\nn\functional.py", line 2813, in batch_norm
+    return torch.batch_norm(
+           ~~~~~~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<7 lines>...
+        torch.backends.cudnn.enabled,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 975.9315, Test loss: 1067.9102
+Epoch [20/200], Train scaled loss: 710.3002, Test loss: 956.6376
+Epoch [30/200], Train scaled loss: 546.5272, Test loss: 942.9838
+Epoch [40/200], Train scaled loss: 478.1167, Test loss: 1035.5590
+Epoch [50/200], Train scaled loss: 415.5031, Test loss: 1196.6855
+Epoch [60/200], Train scaled loss: 379.9866, Test loss: 955.4083
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 190, in train_regression_model
+    epoch_loss += loss.item() * X_batch.size(0)
+                  ~~~~~~~~~^^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1053.4983, Test loss: 1091.1691
+Epoch [20/200], Train scaled loss: 794.6277, Test loss: 972.3558
+Epoch [30/200], Train scaled loss: 672.5845, Test loss: 952.0267
+Epoch [40/200], Train scaled loss: 587.1381, Test loss: 947.4157
+Epoch [50/200], Train scaled loss: 539.0408, Test loss: 926.6939
+Epoch [60/200], Train scaled loss: 507.4961, Test loss: 912.3028
+Epoch [70/200], Train scaled loss: 449.2250, Test loss: 911.3878
+Epoch [80/200], Train scaled loss: 425.1122, Test loss: 911.1079
+Epoch [90/200], Train scaled loss: 402.4317, Test loss: 907.2657
+Epoch [100/200], Train scaled loss: 397.3252, Test loss: 920.9042
+Epoch [110/200], Train scaled loss: 389.6336, Test loss: 918.4928
+Epoch [120/200], Train scaled loss: 362.8389, Test loss: 895.0829
+Epoch [130/200], Train scaled loss: 352.9735, Test loss: 891.1786
+Epoch [140/200], Train scaled loss: 373.1902, Test loss: 892.7055
+Epoch [150/200], Train scaled loss: 324.5292, Test loss: 917.6448
+Epoch [160/200], Train scaled loss: 327.8902, Test loss: 883.7722
+Epoch [170/200], Train scaled loss: 312.7344, Test loss: 905.2689
+Epoch [180/200], Train scaled loss: 307.2175, Test loss: 889.4482
+Epoch [190/200], Train scaled loss: 299.0160, Test loss: 893.9167
+Epoch [200/200], Train scaled loss: 302.8639, Test loss: 904.0516
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1080.1635, Test loss: 1061.3278
+Epoch [20/200], Train scaled loss: 886.5731, Test loss: 955.0754
+Epoch [30/200], Train scaled loss: 746.5944, Test loss: 976.4276
+Epoch [40/200], Train scaled loss: 688.9280, Test loss: 947.5742
+Epoch [50/200], Train scaled loss: 622.6859, Test loss: 911.6733
+Epoch [60/200], Train scaled loss: 570.8271, Test loss: 904.2609
+Epoch [70/200], Train scaled loss: 524.3002, Test loss: 892.0043
+Epoch [80/200], Train scaled loss: 546.8545, Test loss: 915.6962
+Epoch [90/200], Train scaled loss: 493.5123, Test loss: 899.8240
+Epoch [100/200], Train scaled loss: 463.2000, Test loss: 920.0505
+Epoch [110/200], Train scaled loss: 453.2006, Test loss: 893.1775
+Epoch [120/200], Train scaled loss: 451.6937, Test loss: 890.1265
+Epoch [130/200], Train scaled loss: 416.9297, Test loss: 886.6785
+Epoch [140/200], Train scaled loss: 421.1380, Test loss: 888.7718
+Epoch [150/200], Train scaled loss: 384.6723, Test loss: 934.1430
+Epoch [160/200], Train scaled loss: 373.0104, Test loss: 899.9824
+Epoch [170/200], Train scaled loss: 390.4506, Test loss: 887.8148
+Epoch [180/200], Train scaled loss: 358.2883, Test loss: 911.7388
+Epoch [190/200], Train scaled loss: 351.5406, Test loss: 919.4805
+Epoch [200/200], Train scaled loss: 330.9445, Test loss: 902.9031
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1181.3240, Test loss: 1307.2647
+Epoch [20/200], Train scaled loss: 1140.5106, Test loss: 1097.5701
+Epoch [30/200], Train scaled loss: 1062.3578, Test loss: 1076.2895
+Epoch [40/200], Train scaled loss: 1014.9500, Test loss: 1002.0624
+Epoch [50/200], Train scaled loss: 981.9775, Test loss: 962.5414
+Epoch [60/200], Train scaled loss: 957.7350, Test loss: 951.8916
+Epoch [70/200], Train scaled loss: 932.2695, Test loss: 950.0012
+Epoch [80/200], Train scaled loss: 922.8651, Test loss: 932.0107
+Epoch [90/200], Train scaled loss: 922.6031, Test loss: 910.9629
+Epoch [100/200], Train scaled loss: 893.8776, Test loss: 915.8628
+Epoch [110/200], Train scaled loss: 892.1556, Test loss: 913.6388
+Epoch [120/200], Train scaled loss: 899.1682, Test loss: 903.6915
+Epoch [130/200], Train scaled loss: 885.5792, Test loss: 896.0457
+Epoch [140/200], Train scaled loss: 896.5601, Test loss: 911.1238
+Epoch [150/200], Train scaled loss: 865.2750, Test loss: 897.6149
+Epoch [160/200], Train scaled loss: 868.7950, Test loss: 890.3413
+Epoch [170/200], Train scaled loss: 866.3126, Test loss: 876.8276
+Epoch [180/200], Train scaled loss: 838.6737, Test loss: 898.7354
+Epoch [190/200], Train scaled loss: 846.9651, Test loss: 904.1083
+Epoch [200/200], Train scaled loss: 821.6923, Test loss: 917.6245
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1158.9700, Test loss: 1135.2011
+Epoch [20/200], Train scaled loss: 1006.5716, Test loss: 1117.8597
+Epoch [30/200], Train scaled loss: 913.2390, Test loss: 977.0460
+Epoch [40/200], Train scaled loss: 855.2010, Test loss: 939.8940
+Epoch [50/200], Train scaled loss: 814.9355, Test loss: 916.2819
+Epoch [60/200], Train scaled loss: 780.1488, Test loss: 897.8359
+Epoch [70/200], Train scaled loss: 738.1755, Test loss: 901.7034
+Epoch [80/200], Train scaled loss: 726.5400, Test loss: 899.6780
+Epoch [90/200], Train scaled loss: 729.4552, Test loss: 939.4091
+Epoch [100/200], Train scaled loss: 703.8945, Test loss: 927.4514
+Epoch [110/200], Train scaled loss: 680.3259, Test loss: 890.5588
+Epoch [120/200], Train scaled loss: 663.0104, Test loss: 921.4629
+Epoch [130/200], Train scaled loss: 667.2313, Test loss: 924.7182
+Epoch [140/200], Train scaled loss: 637.3711, Test loss: 936.0274
+Epoch [150/200], Train scaled loss: 640.9065, Test loss: 932.5374
+Epoch [160/200], Train scaled loss: 633.3141, Test loss: 956.9941
+Epoch [170/200], Train scaled loss: 634.5668, Test loss: 891.3573
+Epoch [180/200], Train scaled loss: 615.4659, Test loss: 898.6566
+Epoch [190/200], Train scaled loss: 621.4319, Test loss: 887.5011
+Epoch [200/200], Train scaled loss: 613.7194, Test loss: 891.1825
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1125.2327, Test loss: 1105.4929
+Epoch [20/200], Train scaled loss: 950.2794, Test loss: 991.1561
+Epoch [30/200], Train scaled loss: 854.8590, Test loss: 950.9372
+Epoch [40/200], Train scaled loss: 814.2612, Test loss: 912.4628
+Epoch [50/200], Train scaled loss: 768.5386, Test loss: 900.5471
+Epoch [60/200], Train scaled loss: 732.3227, Test loss: 903.6969
+Epoch [70/200], Train scaled loss: 725.3984, Test loss: 933.4464
+Epoch [80/200], Train scaled loss: 695.4984, Test loss: 896.9494
+Epoch [90/200], Train scaled loss: 694.7312, Test loss: 897.5756
+Epoch [100/200], Train scaled loss: 663.5627, Test loss: 893.4432
+Epoch [110/200], Train scaled loss: 644.5071, Test loss: 887.1284
+Epoch [120/200], Train scaled loss: 631.2466, Test loss: 924.0234
+Epoch [130/200], Train scaled loss: 640.1675, Test loss: 940.6800
+Epoch [140/200], Train scaled loss: 631.5305, Test loss: 918.5732
+Epoch [150/200], Train scaled loss: 599.5516, Test loss: 918.3427
+Epoch [160/200], Train scaled loss: 625.7570, Test loss: 906.0897
+Epoch [170/200], Train scaled loss: 612.6196, Test loss: 893.3361
+Epoch [180/200], Train scaled loss: 589.1641, Test loss: 927.9740
+Epoch [190/200], Train scaled loss: 575.9689, Test loss: 919.7174
+Epoch [200/200], Train scaled loss: 581.6804, Test loss: 911.4386
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 1059.9769, Test loss: 1013.5677
+Epoch [20/200], Train scaled loss: 870.1509, Test loss: 784.0918
+Epoch [30/200], Train scaled loss: 798.1494, Test loss: 717.3909
+Epoch [40/200], Train scaled loss: 762.2346, Test loss: 704.1852
+Epoch [50/200], Train scaled loss: 715.6165, Test loss: 698.5802
+Epoch [60/200], Train scaled loss: 694.3925, Test loss: 691.8915
+Epoch [70/200], Train scaled loss: 657.3694, Test loss: 666.3552
+Epoch [80/200], Train scaled loss: 647.3905, Test loss: 664.1896
+Epoch [90/200], Train scaled loss: 638.0626, Test loss: 679.9899
+Epoch [100/200], Train scaled loss: 628.1381, Test loss: 661.0289
+Epoch [110/200], Train scaled loss: 629.3856, Test loss: 658.6554
+Epoch [120/200], Train scaled loss: 611.4636, Test loss: 703.8288
+Epoch [130/200], Train scaled loss: 597.4970, Test loss: 723.9838
+Epoch [140/200], Train scaled loss: 599.6335, Test loss: 638.9515
+Epoch [150/200], Train scaled loss: 597.6428, Test loss: 637.1616
+Epoch [160/200], Train scaled loss: 565.1123, Test loss: 635.4699
+Epoch [170/200], Train scaled loss: 572.9182, Test loss: 640.9232
+Epoch [180/200], Train scaled loss: 565.5995, Test loss: 673.1393
+Epoch [190/200], Train scaled loss: 572.2455, Test loss: 666.8062
+Epoch [200/200], Train scaled loss: 562.3585, Test loss: 716.0177
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 804.2844, Test loss: 781.0665
+Epoch [20/200], Train scaled loss: 615.8254, Test loss: 686.2808
+Epoch [30/200], Train scaled loss: 509.1696, Test loss: 665.2135
+Epoch [40/200], Train scaled loss: 470.9822, Test loss: 689.9201
+Epoch [50/200], Train scaled loss: 452.5302, Test loss: 664.8718
+Epoch [60/200], Train scaled loss: 414.9526, Test loss: 680.7777
+Epoch [70/200], Train scaled loss: 399.8168, Test loss: 640.5317
+Epoch [80/200], Train scaled loss: 376.8867, Test loss: 660.9096
+Epoch [90/200], Train scaled loss: 377.4360, Test loss: 620.7218
+Epoch [100/200], Train scaled loss: 351.8264, Test loss: 667.6072
+Epoch [110/200], Train scaled loss: 378.1388, Test loss: 673.0068
+Epoch [120/200], Train scaled loss: 330.9409, Test loss: 667.4713
+Epoch [130/200], Train scaled loss: 338.5506, Test loss: 654.9700
+Epoch [140/200], Train scaled loss: 311.6060, Test loss: 643.3240
+Epoch [150/200], Train scaled loss: 305.1667, Test loss: 630.5992
+Epoch [160/200], Train scaled loss: 308.9951, Test loss: 633.5448
+Epoch [170/200], Train scaled loss: 295.0595, Test loss: 659.5256
+Epoch [180/200], Train scaled loss: 293.6144, Test loss: 690.1949
+Epoch [190/200], Train scaled loss: 293.6151, Test loss: 653.1249
+Epoch [200/200], Train scaled loss: 290.5503, Test loss: 658.8478
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 445.0612, Test loss: 15.9168
+Epoch [20/200], Train scaled loss: 366.7242, Test loss: 14.6600
+Epoch [30/200], Train scaled loss: 334.9265, Test loss: 13.6847
+Epoch [40/200], Train scaled loss: 312.5059, Test loss: 13.9163
+Epoch [50/200], Train scaled loss: 294.1292, Test loss: 13.1383
+Epoch [60/200], Train scaled loss: 288.1994, Test loss: 12.7671
+Epoch [70/200], Train scaled loss: 279.3001, Test loss: 13.4869
+Epoch [80/200], Train scaled loss: 267.6989, Test loss: 13.7340
+Epoch [90/200], Train scaled loss: 261.7100, Test loss: 14.7281
+Epoch [100/200], Train scaled loss: 258.6191, Test loss: 13.2509
+Epoch [110/200], Train scaled loss: 253.5583, Test loss: 12.1854
+Epoch [120/200], Train scaled loss: 247.0740, Test loss: 12.7919
+Epoch [130/200], Train scaled loss: 242.5735, Test loss: 12.6059
+Epoch [140/200], Train scaled loss: 235.0371, Test loss: 12.3577
+Epoch [150/200], Train scaled loss: 238.5923, Test loss: 12.5301
+Epoch [160/200], Train scaled loss: 228.5847, Test loss: 12.3666
+Epoch [170/200], Train scaled loss: 224.1007, Test loss: 12.7618
+Epoch [180/200], Train scaled loss: 221.4464, Test loss: 13.3375
+Epoch [190/200], Train scaled loss: 223.5726, Test loss: 12.3739
+Epoch [200/200], Train scaled loss: 219.7109, Test loss: 11.8793
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 210, in train_regression_model
+    print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {scaler.reverse(epoch_loss):.4f}, Test loss: {test_loss:.4f}')
+                                                                ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\Pufi\source\repos\chess-training\scalers.py", line 23, in reverse
+    return self.constant * torch.sinh(scaled_tensor)
+                           ~~~~~~~~~~^^^^^^^^^^^^^^^
+TypeError: sinh(): argument 'input' (position 1) must be Tensor, not float
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [10/200], Train scaled loss: 29.9182, Test loss: 288.6792
+Epoch [20/200], Train scaled loss: 19.3003, Test loss: 196.5318
+Epoch [30/200], Train scaled loss: 14.5933, Test loss: 175.1315
+Epoch [40/200], Train scaled loss: 11.8159, Test loss: 189.0654
+Epoch [50/200], Train scaled loss: 10.1401, Test loss: 169.0255
+Epoch [60/200], Train scaled loss: 9.1698, Test loss: 155.8204
+Epoch [70/200], Train scaled loss: 8.4688, Test loss: 162.0588
+Epoch [80/200], Train scaled loss: 7.1864, Test loss: 151.3064
+Epoch [90/200], Train scaled loss: 6.6158, Test loss: 153.8449
+Epoch [100/200], Train scaled loss: 6.7839, Test loss: 175.3901
+Epoch [110/200], Train scaled loss: 6.0405, Test loss: 167.5081
+Epoch [120/200], Train scaled loss: 6.1971, Test loss: 145.0836
+Epoch [130/200], Train scaled loss: 5.5138, Test loss: 154.9291
+Epoch [140/200], Train scaled loss: 5.5919, Test loss: 140.1231
+Epoch [150/200], Train scaled loss: 5.0979, Test loss: 138.4150
+Epoch [160/200], Train scaled loss: 4.7376, Test loss: 147.7130
+Epoch [170/200], Train scaled loss: 4.6348, Test loss: 142.2952
+Epoch [180/200], Train scaled loss: 4.8183, Test loss: 141.6548
+Epoch [190/200], Train scaled loss: 4.3107, Test loss: 135.8145
+Epoch [200/200], Train scaled loss: 4.4107, Test loss: 142.7347
+
+C:\Users\Pufi\source\repos\chess-training>python train.py
+Epoch [1/200], Train scaled loss: 81.5846, Test loss: 285.7259
+Epoch [2/200], Train scaled loss: 52.9918, Test loss: 274.3463
+Epoch [3/200], Train scaled loss: 48.9169, Test loss: 273.7269
+Epoch [4/200], Train scaled loss: 45.1259, Test loss: 319.3063
+Epoch [5/200], Train scaled loss: 43.0769, Test loss: 261.8294
+Epoch [6/200], Train scaled loss: 38.9911, Test loss: 256.0104
+Epoch [7/200], Train scaled loss: 36.9305, Test loss: 248.8177
+Epoch [8/200], Train scaled loss: 34.5306, Test loss: 259.6152
+Epoch [9/200], Train scaled loss: 33.1790, Test loss: 221.0906
+Epoch [10/200], Train scaled loss: 30.2601, Test loss: 231.6152
+Epoch [11/200], Train scaled loss: 28.8059, Test loss: 270.8275
+Epoch [12/200], Train scaled loss: 27.5468, Test loss: 315.3871
+Epoch [13/200], Train scaled loss: 26.9652, Test loss: 232.0816
+Epoch [14/200], Train scaled loss: 24.4994, Test loss: 209.6409
+Epoch [15/200], Train scaled loss: 23.5767, Test loss: 204.1469
+Epoch [16/200], Train scaled loss: 22.5634, Test loss: 220.6609
+Epoch [17/200], Train scaled loss: 22.0281, Test loss: 200.9480
+Epoch [18/200], Train scaled loss: 20.1573, Test loss: 200.6741
+Epoch [19/200], Train scaled loss: 19.6280, Test loss: 225.2050
+Epoch [20/200], Train scaled loss: 19.1972, Test loss: 193.2196
+Traceback (most recent call last):
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 214, in <module>
+    train_regression_model()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\source\repos\chess-training\train.py", line 188, in train_regression_model
+    optimizer.step()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\optim\optimizer.py", line 517, in wrapper
+    out = func(*args, **kwargs)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\optim\optimizer.py", line 82, in _use_grad
+    ret = func(*args, **kwargs)
+  File "C:\Users\Pufi\AppData\Roaming\Python\Python314\site-packages\torch\optim\adam.py", line 247, in step
+    adam(
+    ~~~~^
+        params_with_grad,
+        ^^^^^^^^^^^^^^^^^
+    ...<19 lines>...
+        decoupled_weight_decay=group["decoupled_weight_decay"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+KeyboardInterrupt
+^C
+C:\Users\Pufi\source\repos\chess-training>

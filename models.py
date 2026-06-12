@@ -75,7 +75,7 @@ class BoardInputBigBigClassifier(torch.nn.Module):
 class BoardInputRegression(torch.nn.Module):
     def __init__(self, input_dim, output_dim=1):
         super(BoardInputRegression, self).__init__()
-        self.dropout = torch.nn.Dropout(0.2)
+        self.dropout = torch.nn.Dropout(0)
         self.linear1 = torch.nn.Linear(input_dim, 1024)
         self.bn1 = torch.nn.BatchNorm1d(1024)
         self.dropout1 = torch.nn.Dropout(0.25)
