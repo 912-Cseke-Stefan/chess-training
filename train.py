@@ -175,3 +175,4 @@ def train_regression_model():
         if (epoch + 1) % 10 == 0:
             print(f'Epoch [{epoch+1}/{num_epochs}], Train scaled loss: {epoch_loss:.4f}, Test loss: {test_loss:.4f}')
 	
+train_regression_model()
