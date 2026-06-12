@@ -72,13 +72,13 @@ def save_model_if_better(
     save_path = Path(save_path)
     save_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(model.state_dict(), save_path)
-    print(f"Saved model at epoch {epoch + 1} with test accuracy {current_performance:.4f}")
+    print(f"  Saved model at epoch {epoch + 1} with test accuracy {current_performance:.4f}")
 
     return current_performance
 
 def train_big_classifier():
     #                                         magic constant vv
-    model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
+    model = models.BoardInputBigBigClassifier(X_train.shape[1], 20).to(device)
 
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
