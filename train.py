@@ -1,4 +1,5 @@
 import data_preparation
+from pathlib import Path
 
 def read_from_file(filename: str, output_parser):
     X = []
@@ -54,6 +55,27 @@ y_test = y_test.to(device)
 
 from torch.utils.data import TensorDataset, DataLoader
 
+def save_model_if_better(
+    model,
+    current_performance,
+    best_stored_performance,
+    epoch,
+    save_path="save/big_classifier_best.pth",
+    min_epochs=50
+):
+    if epoch + 1 < min_epochs:
+        return best_stored_performance
+
+    if current_performance <= best_stored_performance:
+        return best_stored_performance
+
+    save_path = Path(save_path)
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(model.state_dict(), save_path)
+    print(f"Saved model at epoch {epoch + 1} with test accuracy {current_performance:.4f}")
+
+    return current_performance
+
 def train_big_classifier():
     #                                         magic constant vv
     model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
@@ -69,6 +91,7 @@ def train_big_classifier():
     num_epochs = 300
     loss_values = []
     acc_values = []
+    best_stored_test_acc = float("-inf")
 
     for epoch in range(num_epochs):
         model.train()
@@ -99,6 +122,12 @@ def train_big_classifier():
             test_acc = accuracy_fn(y_test, y_test_pred)
 
         scheduler.step(test_acc)
+        best_stored_test_acc = save_model_if_better(
+            model,
+            test_acc,
+            best_stored_test_acc,
+            epoch
+        )
 
         if (epoch + 1) % 10 == 0:
             print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Accuracy: {train_acc:.4f}, Test accuracy: {test_acc:.4f}')
