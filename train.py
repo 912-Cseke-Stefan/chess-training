@@ -1,6 +1,6 @@
 import data_preparation
 
-def read_from_file(filename: str):
+def read_from_file(filename: str, output_parser):
     X = []
     y = []
 
@@ -10,7 +10,7 @@ def read_from_file(filename: str):
                 continue
             
             line = line.strip()
-            inputs, outputs = data_preparation.turn_fen_to_board_inputs_15_outputs(line)
+            inputs, outputs = output_parser(line)
             
             if inputs is None:
                 continue
@@ -28,7 +28,7 @@ if torch.cuda.is_available() is False:
 device = "cuda"
 
 
-X, y = read_from_file("selected_top_level_games.csv")
+X, y = read_from_file("selected_top_level_games.csv", data_preparation.turn_fen_to_board_inputs_15_outputs)
 
 X = torch.tensor(X, dtype=torch.float)
 y = torch.tensor(y)
