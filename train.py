@@ -76,6 +76,27 @@ def save_model_if_better(
 
     return current_performance
 
+def save_regression_model_if_better(
+    model,
+    current_test_mae,
+    best_stored_test_mae,
+    epoch,
+    save_path="save/regression_big_adamw_best.pth",
+    min_epochs=50
+):
+    if epoch + 1 < min_epochs:
+        return best_stored_test_mae
+
+    if current_test_mae >= best_stored_test_mae:
+        return best_stored_test_mae
+
+    save_path = Path(save_path)
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(model.state_dict(), save_path)
+    print(f"  Saved regression model at epoch {epoch + 1} with test MAE {current_test_mae:.2f} cp")
+
+    return current_test_mae
+
 def train_big_classifier():
     #                                         magic constant vv
     model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
@@ -187,6 +208,7 @@ def train_regression_model():
 
     criterion = torch.nn.SmoothL1Loss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
+    #optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.7, weight_decay=0, nesterov=True)
     scaler = scalers.AsinhScaler(1000)
     #scaler = scalers.TanhScaler(1000)
     #scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
@@ -196,7 +218,7 @@ def train_regression_model():
     y_test_regression = y_test_regression.view(-1, 1)
     scaled_y_train = scaler.scale(y_train_regression)
 
-    batch_size = 256
+    batch_size = 32
     train_dataset = TensorDataset(X_train_regression, scaled_y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
@@ -204,6 +226,8 @@ def train_regression_model():
     print_every = 10
     loss_values = []
     test_rmse_values = []
+    test_mae_values = []
+    best_stored_test_mae = float("inf")
 
     for epoch in range(num_epochs):
         model.train()
@@ -231,6 +255,14 @@ def train_regression_model():
             criterion
         )
         test_rmse_values.append(test_rmse)
+        test_mae_values.append(test_mae)
+
+        best_stored_test_mae = save_regression_model_if_better(
+            model,
+            test_mae,
+            best_stored_test_mae,
+            epoch
+        )
 
         if (epoch + 1) % print_every == 0:
             train_scaled_loss, train_rmse, train_mae = evaluate_regression_model(
