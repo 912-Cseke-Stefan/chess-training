@@ -92,6 +92,7 @@ def save_training_artifacts(model, model_state, progress_values, model_filename,
     torch.save(model_state, model_path)
     save_progress_values(progress_path, metric_name, progress_values)
 
+    print("-------------------------------")
     print(f"Saved final model to {model_path}")
     print(f"Saved progress to {progress_path}")
 
@@ -137,10 +138,10 @@ def train_big_classifier():
     model = models.BoardInputBigClassifier(X_train.shape[1], 20).to(device)
 
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=15)
 
-    batch_size = 512
+    batch_size = 256
     train_dataset = TensorDataset(X_train, y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
@@ -148,6 +149,15 @@ def train_big_classifier():
     acc_values = []
     best_stored_test_acc = float("-inf")
     best_model_state = None
+
+    # value before any training
+    model.eval()
+    with torch.no_grad():
+        y_test_pred = model(X_test)
+        y_test_pred = torch.argmax(y_test_pred, dim=1)
+        test_acc = accuracy_fn(y_test, y_test_pred)
+
+    acc_values.append(test_acc)
 
     for epoch in range(num_epochs):
         model.train()
@@ -262,7 +272,7 @@ def train_regression_model():
     y_test_regression = y_test_regression.view(-1, 1)
     scaled_y_train = scaler.scale(y_train_regression)
 
-    batch_size = 32
+    batch_size = 256
     train_dataset = TensorDataset(X_train_regression, scaled_y_train)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
@@ -273,6 +283,18 @@ def train_regression_model():
     test_mae_values = []
     best_stored_test_mae = float("inf")
     best_model_state = None
+
+    # value before any training
+    test_scaled_loss, test_rmse, test_mae = evaluate_regression_model(
+        model,
+        X_test_regression,
+        y_test_regression,
+        scaler,
+        criterion
+    )
+
+    test_mae_values.append(test_mae)
+
 
     for epoch in range(num_epochs):
         model.train()
