@@ -43,7 +43,7 @@ def turn_fen_to_board_inputs(fen_position: str):
         inputs.append(-1)
         
     castle_rights = [0, 0, 0, 0]
-    for right in castle_rights:
+    for right in castle:
         if right == 'K':
             castle_rights[0] = 1
         if right == 'Q':
