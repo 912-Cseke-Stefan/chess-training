@@ -3,3 +3,5 @@ __pycache__/
 /stockfish
 *.pth
 trainn.py
+*.txt
+*.csv
