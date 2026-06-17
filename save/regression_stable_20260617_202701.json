@@ -1,0 +1,43 @@
+{
+  "args": {
+    "data": "selected_top_level_games.csv",
+    "save_dir": "save",
+    "model_filename": "regression_stable.pth",
+    "seed": 43,
+    "epochs": 500,
+    "batch_size": 512,
+    "eval_batch_size": 4096,
+    "num_workers": 0,
+    "val_size": 0.1,
+    "test_size": 0.1,
+    "lr": 0.0003,
+    "min_lr_ratio": 0.05,
+    "warmup_epochs": 5,
+    "weight_decay": 0.0001,
+    "grad_clip": 1.0,
+    "smooth_l1_beta": 0.25,
+    "target_scale": 1000.0,
+    "hidden_dropout": 0.1,
+    "input_dropout": 0.0,
+    "bn_momentum": 0.03,
+    "min_epochs": 50,
+    "patience": 75,
+    "min_delta": 0.05,
+    "print_every": 5,
+    "device": "cuda",
+    "no_amp": false
+  },
+  "device": "cuda",
+  "amp": true,
+  "input_dim": 774,
+  "model_class": "models.BoardInputRegression",
+  "target_scaler": {
+    "class": "scalers.AsinhScaler",
+    "constant": 1000.0
+  },
+  "best_epoch": 385,
+  "best_val_mae": 119.4273314120429,
+  "test_scaled_loss": 0.02398166271438421,
+  "test_rmse": 691.5554607145017,
+  "test_mae": 120.16766857372066
+}
