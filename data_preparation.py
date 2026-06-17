@@ -1,4 +1,4 @@
-def turn_fen_to_board_inputs(fen_position: str):
+def turn_fen_to_board_inputs_6(fen_position: str):
     inputs = []
     
     [board, side, castle, pawn, halfclock, moves] = fen_position.split(' ')
@@ -41,6 +41,64 @@ def turn_fen_to_board_inputs(fen_position: str):
         inputs.append(1)
     elif side == 'b':
         inputs.append(-1)
+        
+    castle_rights = [0, 0, 0, 0]
+    for right in castle:
+        if right == 'K':
+            castle_rights[0] = 1
+        if right == 'Q':
+            castle_rights[1] = 1
+        if right == 'k':
+            castle_rights[2] = 1
+        if right == 'q':
+            castle_rights[3] = 1
+    inputs.extend(castle_rights)
+    
+    return inputs
+
+def turn_fen_to_board_inputs(fen_position: str):
+    inputs = []
+    
+    [board, side, castle, pawn, halfclock, moves] = fen_position.split(' ')
+    ranks = board.split('/')
+    
+    for i in range(8):  # ranks are given from 8 to 1 in FEN
+        for char in ranks[i]:
+            if char == 'p':
+                inputs.extend([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            elif char == 'n':
+                inputs.extend([0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            elif char == 'b':
+                inputs.extend([0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            elif char == 'r':
+                inputs.extend([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+            elif char == 'q':
+                inputs.extend([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
+            elif char == 'k':
+                inputs.extend([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0])
+            elif char == 'P':
+                inputs.extend([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0])
+            elif char == 'N':
+                inputs.extend([0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
+            elif char == 'B':
+                inputs.extend([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0])
+            elif char == 'R':
+                inputs.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0])
+            elif char == 'Q':
+                inputs.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0])
+            elif char == 'K':
+                inputs.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
+            elif int(char) in range(1, 9):  # from 1 to 8
+                for file in range(int(char)):
+                    inputs.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    
+    # pure sanity check
+    assert(len(inputs) == 768)
+    
+    if side == 'w':
+        inputs.extend([1, 0])
+    elif side == 'b':
+        inputs.extend([0, 1])
         
     castle_rights = [0, 0, 0, 0]
     for right in castle:
