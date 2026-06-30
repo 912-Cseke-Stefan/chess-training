@@ -237,7 +237,24 @@ def evaluate_regression_model(model, X, y_raw, scaler, criterion, batch_size=409
     return scaled_loss, rmse, mae
 
 def train_regression_model():
-    model_filename = "regression_big_adamw_best.pth"
+    model_filename = "regression_big_clamped_linear_800_adamw_best.pth"
+    label_min = -800.0
+    label_max = 800.0
+
+    class ClampedLinearScaler:
+        def __init__(self, minimum, maximum):
+            self.minimum = minimum
+            self.maximum = maximum
+            self.midpoint = (minimum + maximum) / 2
+            self.half_range = (maximum - minimum) / 2
+
+        def scale(self, y):
+            y = torch.clamp(y, min=self.minimum, max=self.maximum)
+            return (y - self.midpoint) / self.half_range
+
+        def reverse(self, scaled_tensor):
+            return scaled_tensor * self.half_range + self.midpoint
+
     X_regression, y_regression = read_from_file(
         "selected_top_level_games.csv",
         data_preparation.turn_fen_to_board_inputs_raw_output
@@ -258,12 +275,15 @@ def train_regression_model():
     y_train_regression = y_train_regression.to(device)
     y_test_regression = y_test_regression.to(device)
 
+    y_train_regression = torch.clamp(y_train_regression, min=label_min, max=label_max)
+    y_test_regression = torch.clamp(y_test_regression, min=label_min, max=label_max)
+
     model = models.BoardInputRegression(X_train_regression.shape[1]).to(device)
 
     criterion = torch.nn.SmoothL1Loss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
     #optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.7, weight_decay=0, nesterov=True)
-    scaler = scalers.AsinhScaler(1000)
+    scaler = ClampedLinearScaler(label_min, label_max)
     #scaler = scalers.TanhScaler(1000)
     #scaler = scalers.DistribScaler(y_train_regression.mean(), y_train_regression.std())
     #print(y_train_regression.mean(), y_train_regression.std())
