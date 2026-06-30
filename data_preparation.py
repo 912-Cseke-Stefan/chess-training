@@ -1,4 +1,4 @@
-def turn_fen_to_board_inputs_6(fen_position: str):
+def turn_fen_to_board_inputs(fen_position: str):
     inputs = []
     
     [board, side, castle, pawn, halfclock, moves] = fen_position.split(' ')
@@ -56,7 +56,7 @@ def turn_fen_to_board_inputs_6(fen_position: str):
     
     return inputs
 
-def turn_fen_to_board_inputs(fen_position: str):
+def turn_fen_to_board_inputs_12(fen_position: str):
     inputs = []
     
     [board, side, castle, pawn, halfclock, moves] = fen_position.split(' ')
